@@ -3,7 +3,7 @@
 Product catalog for the [ar-ecommerce-platform](https://github.com/ar-ecommerce-platform).
 
 - **Port:** 8083
-- **Persistence:** in-memory H2 (`products` table), seeded with 5 demo products (ids 1..5) on startup
+- **Persistence:** `products` table, seeded with 5 demo products (ids 1..5) on startup. Dev: in-memory H2. `prod`: PostgreSQL + Flyway.
 - **Registers with:** Eureka (discovery-server :8761)
 - Prices are stored as integer **cents**.
 
@@ -58,10 +58,12 @@ Quality config is vendored: `gradle/quality.gradle`, `config/checkstyle/`.
 |---|---|---|
 | `SERVER_PORT` | `8083` | HTTP port |
 | `EUREKA_CLIENT_SERVICEURL_DEFAULTZONE` | `http://localhost:8761/eureka/` | registry URL |
+| `SPRING_PROFILES_ACTIVE` | _(none)_ | set to `prod` to use PostgreSQL + Flyway instead of H2 |
+| `SPRING_DATASOURCE_URL` / `_USERNAME` / `_PASSWORD` | - | Postgres connection (`prod` only) |
 
 ## Tech
 
-Java 21 · Spring Boot 3.5.7 · Spring Data JPA + H2 · Bean Validation ·
+Java 21 · Spring Boot 3.5.7 · Spring Data JPA (H2 / PostgreSQL + Flyway) · Bean Validation ·
 Spring Cloud 2025.0.0 (`netflix-eureka-client`) · Gradle
 
 See [infra/RUNBOOK.md](../infra/RUNBOOK.md) for the full platform runbook.
