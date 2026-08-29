@@ -43,6 +43,15 @@ docker build -t ecom/product-service . && docker run --rm -p 8083:8083 ecom/prod
 
 Quality config is vendored: `gradle/quality.gradle`, `config/checkstyle/`.
 
+## Testing
+
+`./gradlew test` runs every layer below; `./gradlew build` also runs Checkstyle + Spotless and writes a JaCoCo report.
+
+- **Smoke** — `ProductServiceApplicationTests`: the full Spring context starts.
+- **Unit** — `service/ProductServiceTest`: `getById` returns a present product and throws `ProductNotFoundException` when missing.
+- **API / web slice** — `web/ProductControllerTest` (`@WebMvcTest`): `GET /products` list; `GET /products/{id}` → 200; missing → 404 with the `ApiError` body.
+- **Repository slice** — `repository/ProductRepositoryTest` (`@DataJpaTest`): `existsBySku`.
+
 ## Config
 
 | Variable | Default | Purpose |
